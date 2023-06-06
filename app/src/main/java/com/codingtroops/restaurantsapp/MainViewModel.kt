@@ -17,7 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainViewModel : ViewModel() {
 
     private var restInterface: RestaurantsApiService
-    private lateinit var restaurantsCall: Call<List<Restaurant>>
 
     private val _uiState: MutableState<List<Restaurant>> =
         mutableStateOf(emptyList())
@@ -50,11 +49,6 @@ class MainViewModel : ViewModel() {
                 restInterface.getRestaurants()
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        restaurantsCall.cancel()
     }
 
 }

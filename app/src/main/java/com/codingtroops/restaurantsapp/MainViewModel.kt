@@ -4,19 +4,19 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.codingtroops.restaurantsapp.data.RestaurantRepository
+import com.codingtroops.restaurantsapp.model.Restaurant
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-
-class MainViewModel : ViewModel() {
-
-    private var restInterface: RestaurantsApiService
+class MainViewModel(
+    repository: RestaurantRepository
+) : ViewModel() {
 
     private val _uiState: MutableState<List<Restaurant>> =
         mutableStateOf(emptyList())
@@ -27,12 +27,9 @@ class MainViewModel : ViewModel() {
     }
 
     init {
-        val retrofit: Retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://restaurantsapp-android-default-rtdb.firebaseio.com/")
-            .build()
-        restInterface = retrofit.create(RestaurantsApiService::class.java)
-        getRestaurants()
+        viewModelScope.launch(errorHandler) {
+            _uiState.value = repository.getRestaurants()
+        }
     }
 
     fun toggleFavorite(id: Int) {
@@ -43,12 +40,13 @@ class MainViewModel : ViewModel() {
         _uiState.value = restaurants.toList()
     }
 
-    private fun getRestaurants() {
-        viewModelScope.launch(errorHandler) {
-            _uiState.value = withContext(Dispatchers.IO){
-                restInterface.getRestaurants()
+    companion object {
+        val factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as RestaurantsApplication)
+                val restaurantRepository = application.container.restaurantRepository
+                MainViewModel(repository = restaurantRepository)
             }
         }
     }
-
 }

@@ -22,7 +22,7 @@ fun MainScreen() {
             composable(route = "restaurants") {
                 val viewModel: ListViewModel = hiltViewModel()
                 ListScreen(
-                    restaurants = viewModel.uiState.value,
+                    restaurants = viewModel.restaurantListState.value,
                     onItemClick = { id -> navController.navigate("restaurants/$id") },
                     onFavoriteClick = { id -> viewModel.toggleFavorite(id) }
                 )
@@ -34,7 +34,7 @@ fun MainScreen() {
                     "www.restaurantsapp.details.com/{restaurant_id}" }),
             ) {
                 val viewModel: DetailsViewModel = hiltViewModel()
-                DetailsScreen(restaurant = viewModel.uiState.value)
+                DetailsScreen(restaurant = viewModel.restaurantState.value)
             }
         }
     }

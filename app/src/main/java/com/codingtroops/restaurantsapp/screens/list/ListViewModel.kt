@@ -17,9 +17,9 @@ class ListViewModel @Inject constructor(
     repository: RestaurantRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableState<List<Restaurant>> =
+    private val _restaurantListState: MutableState<List<Restaurant>> =
         mutableStateOf(emptyList())
-    val uiState: State<List<Restaurant>> = _uiState
+    val restaurantListState: State<List<Restaurant>> = _restaurantListState
 
     private val errorHandler = CoroutineExceptionHandler { _, exception ->
         exception.printStackTrace()
@@ -27,15 +27,15 @@ class ListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(errorHandler) {
-            _uiState.value = repository.getAllRestaurants()
+            _restaurantListState.value = repository.getAllRestaurants()
         }
     }
 
     fun toggleFavorite(id: Int) {
-        val restaurants = uiState.value.toMutableList()
+        val restaurants = restaurantListState.value.toMutableList()
         val itemIndex = restaurants.indexOfFirst { it.id == id }
         val item = restaurants[itemIndex]
         restaurants[itemIndex] = item.copy(isFavorite = !item.isFavorite)
-        _uiState.value = restaurants.toList()
+        _restaurantListState.value = restaurants.toList()
     }
 }

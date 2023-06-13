@@ -18,13 +18,13 @@ class DetailsViewModel @Inject constructor(
     stateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val _uiState: MutableState<Restaurant?> = mutableStateOf(null)
-    val uiState: State<Restaurant?> = _uiState
+    private val _restaurantState: MutableState<Restaurant?> = mutableStateOf(null)
+    val restaurantState: State<Restaurant?> = _restaurantState
 
     init {
         val id: Int = stateHandle.get<Int>("restaurant_id")!!
         viewModelScope.launch {
-            _uiState.value = repository.getRestaurantById(id)
+            _restaurantState.value = repository.getRestaurantById(id)
         }
     }
 }

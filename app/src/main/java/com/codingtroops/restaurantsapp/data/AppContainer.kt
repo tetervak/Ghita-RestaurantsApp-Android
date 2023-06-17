@@ -1,5 +1,8 @@
 package com.codingtroops.restaurantsapp.data
 
+import com.codingtroops.restaurantsapp.data.remote.RestaurantApi
+import com.codingtroops.restaurantsapp.data.repository.RestaurantRepository
+import com.codingtroops.restaurantsapp.data.repository.RestaurantRepositoryImpl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,16 +13,18 @@ interface AppContainer {
 
 class DefaultAppContainer: AppContainer {
 
+    private val baseUrl = "https://restaurantsapp-android-default-rtdb.firebaseio.com/"
+
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://restaurantsapp-android-default-rtdb.firebaseio.com/")
+        .baseUrl(baseUrl)
         .build()
 
-    private val retrofitService: RestaurantsApiService by lazy {
-        retrofit.create(RestaurantsApiService::class.java)
+    private val restaurantApi: RestaurantApi by lazy {
+        retrofit.create(RestaurantApi::class.java)
     }
 
     override val restaurantRepository: RestaurantRepository by lazy{
-        RestaurantRepositoryNet(retrofitService)
+        RestaurantRepositoryImpl(restaurantApi)
     }
 }

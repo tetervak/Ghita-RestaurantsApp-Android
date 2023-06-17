@@ -1,9 +1,9 @@
-package com.codingtroops.restaurantsapp.data.fake
+package com.codingtroops.restaurantsapp.data.preview
 
 import com.codingtroops.restaurantsapp.domain.Restaurant
 import kotlin.random.Random
 
-object FakeDataSource {
+object PreviewDataSource {
 
     private val random: Random = Random.Default
 

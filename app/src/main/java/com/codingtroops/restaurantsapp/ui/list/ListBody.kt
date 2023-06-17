@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codingtroops.restaurantsapp.R
-import com.codingtroops.restaurantsapp.data.fake.FakeDataSource
+import com.codingtroops.restaurantsapp.data.preview.PreviewDataSource
 import com.codingtroops.restaurantsapp.domain.Restaurant
 import com.codingtroops.restaurantsapp.ui.theme.AppTheme
 
@@ -48,7 +48,7 @@ fun ListBody(restaurants: List<Restaurant>, onFavoriteClick: (id: Int) -> Unit) 
 fun ListBodyPreview(){
     AppTheme {
         ListBody(
-            restaurants = FakeDataSource.getRestaurants(),
+            restaurants = PreviewDataSource.getRestaurants(),
             onFavoriteClick = {}
         )
     }

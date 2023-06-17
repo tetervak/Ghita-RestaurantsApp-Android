@@ -3,7 +3,7 @@ package com.codingtroops.restaurantsapp.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.codingtroops.restaurantsapp.data.repository.RestaurantRepositoryFake
+import com.codingtroops.restaurantsapp.data.preview.PreviewRestaurantRepository
 import com.codingtroops.restaurantsapp.ui.theme.AppTheme
 import com.codingtroops.restaurantsapp.ui.list.ListScreen
 import com.codingtroops.restaurantsapp.ui.list.ListViewModel
@@ -19,6 +19,6 @@ fun AppScreen() {
 @Composable
 fun DefaultPreview() {
     AppTheme {
-        ListScreen(ListViewModel(RestaurantRepositoryFake()))
+        ListScreen(ListViewModel(PreviewRestaurantRepository()))
     }
 }

@@ -97,7 +97,7 @@ fun ErrorBody(onRetry: () -> Unit, modifier: Modifier = Modifier
         Button(
             onClick = onRetry
         ) {
-            Text(text = "Retry")
+            Text(text = stringResource(R.string.retry_button_label))
         }
     }
 }

@@ -22,7 +22,7 @@ class ListViewModel(
         loadRestaurants()
     }
 
-    fun loadRestaurants() {
+    private fun loadRestaurants() {
         viewModelScope.launch {
             try{
                 val restaurants: List<Restaurant> = repository.getRestaurants()

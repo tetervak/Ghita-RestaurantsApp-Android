@@ -1,9 +1,8 @@
-package com.codingtroops.restaurantsapp.screens.list
+package com.codingtroops.restaurantsapp.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codingtroops.restaurantsapp.data.repository.RestaurantRepository
-import com.codingtroops.restaurantsapp.model.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.SharingStarted
@@ -41,9 +40,3 @@ class ListViewModel @Inject constructor(
         private const val TIMEOUT_MILLIS = 5_000L
     }
 }
-
-sealed interface ListUiState{
-    object Loading: ListUiState
-    data class Success(val restaurants: List<Restaurant>): ListUiState
-}
-

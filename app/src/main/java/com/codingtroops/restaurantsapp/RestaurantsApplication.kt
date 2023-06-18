@@ -9,7 +9,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltAndroidApp
-class RestaurantsHiltApp(): Application() {
+class RestaurantsApplication: Application() {
+
+    @Inject
+    lateinit var repository: RestaurantRepository
 
     companion object {
         private val mainScope = MainScope()
@@ -18,9 +21,6 @@ class RestaurantsHiltApp(): Application() {
     private val errorHandler = CoroutineExceptionHandler { _, exception ->
         exception.printStackTrace()
     }
-
-    @Inject
-    lateinit var repository: RestaurantRepository
 
     override fun onCreate() {
         super.onCreate()

@@ -1,10 +1,10 @@
-package com.codingtroops.restaurantsapp.screens.details
+package com.codingtroops.restaurantsapp.ui.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codingtroops.restaurantsapp.data.repository.RestaurantRepository
-import com.codingtroops.restaurantsapp.model.Restaurant
+import com.codingtroops.restaurantsapp.domain.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,7 +33,3 @@ class DetailsViewModel @Inject constructor(
     }
 }
 
-sealed interface DetailsUiState {
-    object Loading: DetailsUiState
-    data class Success(val restaurant: Restaurant): DetailsUiState
-}

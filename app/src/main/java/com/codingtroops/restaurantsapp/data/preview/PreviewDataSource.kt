@@ -1,0 +1,28 @@
+package com.codingtroops.restaurantsapp.data.preview
+
+import com.codingtroops.restaurantsapp.domain.Restaurant
+import kotlin.random.Random
+
+object PreviewDataSource {
+
+    private val random: Random = Random.Default
+
+    fun getAllRestaurants(): List<Restaurant> = buildList {
+        for (i in 1..30) add(
+            Restaurant(
+                id = i,
+                title = "Fake title $i",
+                description = "Fake description $i",
+                isFavorite = random.nextBoolean()
+            )
+        )
+    }
+
+    fun getRestaurantById(id: Int) =
+        Restaurant(
+            id = id,
+            title = "Fake title $id",
+            description = "Fake description $id",
+            isFavorite = random.nextBoolean()
+        )
+}

@@ -1,4 +1,4 @@
-package com.codingtroops.restaurantsapp
+package com.codingtroops.restaurantsapp.ui
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -8,23 +8,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import com.codingtroops.restaurantsapp.screens.details.DetailsScreen
-import com.codingtroops.restaurantsapp.screens.details.DetailsViewModel
-import com.codingtroops.restaurantsapp.screens.list.ListScreen
-import com.codingtroops.restaurantsapp.screens.list.ListViewModel
-import com.codingtroops.restaurantsapp.ui.theme.MainTheme
+import com.codingtroops.restaurantsapp.ui.details.DetailsScreen
+import com.codingtroops.restaurantsapp.ui.details.DetailsViewModel
+import com.codingtroops.restaurantsapp.ui.list.ListScreen
+import com.codingtroops.restaurantsapp.ui.list.ListViewModel
+import com.codingtroops.restaurantsapp.ui.theme.AppTheme
 
 @Composable
-fun MainScreen() {
-    MainTheme {
+fun AppScreen() {
+    AppTheme {
         val navController = rememberNavController()
         NavHost(navController, startDestination = "restaurants") {
             composable(route = "restaurants") {
                 val viewModel: ListViewModel = hiltViewModel()
                 ListScreen(
-                    restaurants = viewModel.restaurantListState.value,
-                    onItemClick = { id -> navController.navigate("restaurants/$id") },
-                    onFavoriteClick = { id -> viewModel.toggleFavorite(id) }
+                    viewModel = viewModel,
+                    onItemClick = { id -> navController.navigate("restaurants/$id") }
                 )
             }
             composable(
@@ -34,7 +33,7 @@ fun MainScreen() {
                     "www.restaurantsapp.details.com/{restaurant_id}" }),
             ) {
                 val viewModel: DetailsViewModel = hiltViewModel()
-                DetailsScreen(restaurant = viewModel.restaurantState.value)
+                DetailsScreen(viewModel = viewModel)
             }
         }
     }

@@ -3,4 +3,9 @@
     <string name="selection_icon">Selection icon</string>
     <string name="restaurant_icon">Restaurant icon</string>
     <string name="more_info_coming_soon">More info coming soon!</string>
+    <string name="loading_error">Loading Error</string>
+    <string name="cannot_load_data">Cannot load data</string>
+    <string name="loading_data">Loading Data</string>
+    <string name="fake_delay">Fake delay, 2s</string>
+    <string name="retry_button_label">Retry</string>
 </resources>

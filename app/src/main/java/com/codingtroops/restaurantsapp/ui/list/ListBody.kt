@@ -1,4 +1,4 @@
-package com.codingtroops.restaurantsapp.screens.list
+package com.codingtroops.restaurantsapp.ui.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,67 +18,72 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codingtroops.restaurantsapp.R
-import com.codingtroops.restaurantsapp.model.Restaurant
-import com.codingtroops.restaurantsapp.screens.common.RestaurantDetails
-import com.codingtroops.restaurantsapp.screens.common.RestaurantIcon
+import com.codingtroops.restaurantsapp.data.preview.PreviewDataSource
+import com.codingtroops.restaurantsapp.domain.Restaurant
+import com.codingtroops.restaurantsapp.ui.common.RestaurantDetails
+import com.codingtroops.restaurantsapp.ui.common.RestaurantIcon
+import com.codingtroops.restaurantsapp.ui.theme.AppTheme
 
 @Composable
-fun ListScreen(
+fun ListBody(
     restaurants: List<Restaurant>,
     onItemClick: (id: Int) -> Unit,
-    onFavoriteClick: (id: Int) -> Unit
+    onFavoriteClick: (id: Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         contentPadding = PaddingValues(
-            vertical = 8.dp,
-            horizontal = 8.dp
-        )
+            vertical = 8.dp, horizontal = 8.dp
+        ), modifier = modifier
     ) {
         items(restaurants) { restaurant ->
-            RestaurantItem(
-                item = restaurant,
-                onFavoriteClick = onFavoriteClick,
-                onItemClick = onItemClick
-            )
+            RestaurantItem(item = restaurant,
+                onFavoriteClick = { onFavoriteClick(restaurant.id) },
+                onItemClick = { onItemClick(restaurant.id) })
         }
+    }
+}
+
+@Preview
+@Composable
+fun ListBodyPreview(){
+    AppTheme {
+        ListBody(
+            restaurants = PreviewDataSource.getAllRestaurants(),
+            onFavoriteClick = {},
+            onItemClick = {}
+        )
     }
 }
 
 @Composable
 fun RestaurantItem(
-    item: Restaurant,
-    onFavoriteClick: (id: Int) -> Unit,
-    onItemClick: (id: Int) -> Unit
+    item: Restaurant, onFavoriteClick: () -> Unit, onItemClick: () -> Unit
 ) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         modifier = Modifier
             .padding(8.dp)
-            .clickable { onItemClick(item.id) }
+            .clickable(onClick = onItemClick)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
         ) {
             RestaurantIcon(
-                icon = Icons.Filled.Place,
-                modifier = Modifier.weight(0.15f)
+                icon = Icons.Filled.Place, modifier = Modifier.weight(0.15f)
             )
             RestaurantDetails(
-                title = item.title,
-                description = item.description,
-                modifier = Modifier.weight(0.7f)
+                title = item.title, description = item.description, modifier = Modifier.weight(0.7f)
             )
             SelectionIcon(
                 icon = if (item.isFavorite) {
                     Icons.Filled.Favorite
                 } else {
                     Icons.Filled.FavoriteBorder
-                },
-                onClick = { onFavoriteClick(item.id) },
-                modifier = Modifier.weight(0.15f)
+                }, onClick = onFavoriteClick, modifier = Modifier.weight(0.15f)
             )
         }
     }
@@ -86,22 +91,11 @@ fun RestaurantItem(
 
 @Composable
 private fun SelectionIcon(
-    icon: ImageVector,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    icon: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier
 ) {
-    Image(
-        imageVector = icon,
+    Image(imageVector = icon,
         contentDescription = stringResource(R.string.selection_icon),
         modifier = modifier
             .padding(8.dp)
             .clickable { onClick() })
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    MainTheme {
-//        ListScreen(onItemClick = {})
-//    }
-//}

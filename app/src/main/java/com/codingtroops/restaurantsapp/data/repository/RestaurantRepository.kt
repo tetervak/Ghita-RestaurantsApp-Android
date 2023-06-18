@@ -1,6 +1,6 @@
-package com.codingtroops.restaurantsapp.data
+package com.codingtroops.restaurantsapp.data.repository
 
-import com.codingtroops.restaurantsapp.model.Restaurant
+import com.codingtroops.restaurantsapp.domain.Restaurant
 
 interface RestaurantRepository {
 

@@ -11,7 +11,7 @@ class RestaurantRepositoryImpl(
     private val retrofitService: RestaurantApi
 ): RestaurantRepository {
 
-    override suspend fun getRestaurants(): List<Restaurant> =
+    override suspend fun getAllRestaurants(): List<Restaurant> =
         withContext(Dispatchers.IO) {
 
             //fake loading delay, 2 seconds

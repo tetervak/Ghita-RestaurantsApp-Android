@@ -5,8 +5,8 @@ import com.codingtroops.restaurantsapp.domain.Restaurant
 import kotlinx.coroutines.coroutineScope
 
 class PreviewRestaurantRepository: RestaurantRepository {
-    override suspend fun getRestaurants(): List<Restaurant> =
+    override suspend fun getAllRestaurants(): List<Restaurant> =
         coroutineScope {
-           PreviewDataSource.getRestaurants()
+           PreviewDataSource.getAllRestaurants()
         }
 }

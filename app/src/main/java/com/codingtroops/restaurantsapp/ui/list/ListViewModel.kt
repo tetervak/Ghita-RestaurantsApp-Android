@@ -25,7 +25,7 @@ class ListViewModel(
     private fun loadRestaurants() {
         viewModelScope.launch {
             try{
-                val restaurants: List<Restaurant> = repository.getRestaurants()
+                val restaurants: List<Restaurant> = repository.getAllRestaurants()
                 _listUiState.value = ListUiState.Loaded(restaurants = restaurants)
             } catch(e: IOException) {
                 _listUiState.value = ListUiState.Error

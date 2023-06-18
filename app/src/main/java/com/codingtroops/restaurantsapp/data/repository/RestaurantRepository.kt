@@ -4,5 +4,5 @@ import com.codingtroops.restaurantsapp.domain.Restaurant
 
 interface RestaurantRepository {
 
-    suspend fun getRestaurants(): List <Restaurant>
+    suspend fun getAllRestaurants(): List <Restaurant>
 }

@@ -7,7 +7,7 @@ object PreviewDataSource {
 
     private val random: Random = Random.Default
 
-    fun getRestaurants(): List<Restaurant> = buildList {
+    fun getAllRestaurants(): List<Restaurant> = buildList {
         for (i in 1..30) add(
             Restaurant(
                 id = i,

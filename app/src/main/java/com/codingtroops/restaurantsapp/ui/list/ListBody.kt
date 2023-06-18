@@ -48,7 +48,7 @@ fun ListBody(restaurants: List<Restaurant>, onFavoriteClick: (id: Int) -> Unit) 
 fun ListBodyPreview(){
     AppTheme {
         ListBody(
-            restaurants = PreviewDataSource.getRestaurants(),
+            restaurants = PreviewDataSource.getAllRestaurants(),
             onFavoriteClick = {}
         )
     }

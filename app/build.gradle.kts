@@ -1,54 +1,42 @@
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "ca.tetervak.restaurantapp"
-    compileSdk = 35
+    compileSdk {
+        version = release(37)
+    }
 
     defaultConfig {
         applicationId = "ca.tetervak.restaurantapp"
         minSdk = 31
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            optimization {
+                enable = true
+                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
+            }
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         compose = true
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 }
 
@@ -63,9 +51,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+
     // needed for the dependency injection
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // needed for the view model per destination, the hiltViewModel() function
     implementation(libs.hilt.navigation.compose)
@@ -89,9 +80,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }

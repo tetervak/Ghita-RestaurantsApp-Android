@@ -1,32 +1,26 @@
 package ca.tetervak.restaurantapp.data.repository
 
+import android.util.Log
 import ca.tetervak.restaurantapp.data.local.IsFavorite
 import ca.tetervak.restaurantapp.data.local.LocalRestaurant
 import ca.tetervak.restaurantapp.data.local.RestaurantDao
 import ca.tetervak.restaurantapp.data.remote.RemoteRestaurant
 import ca.tetervak.restaurantapp.data.remote.RestaurantApi
 import ca.tetervak.restaurantapp.domain.Restaurant
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@OptIn(DelicateCoroutinesApi::class)
 @Singleton
 class RestaurantRepositoryImpl(
     private val restaurantApi: RestaurantApi,
     private val restaurantDao: RestaurantDao,
-    private val externalScope: CoroutineScope,
     private val dispatcher: CoroutineDispatcher
 ) : RestaurantRepository {
 
@@ -34,7 +28,7 @@ class RestaurantRepositoryImpl(
     constructor(
         restaurantApi: RestaurantApi,
         restaurantDao: RestaurantDao
-    ) : this(restaurantApi, restaurantDao, GlobalScope, Dispatchers.IO)
+    ) : this(restaurantApi, restaurantDao, Dispatchers.IO)
 
     override fun getAllRestaurantFlow(): Flow<List<Restaurant>> =
         restaurantDao.getAllRestaurantFlow().map { list -> list.map { it.toRestaurant() } }
@@ -53,26 +47,24 @@ class RestaurantRepositoryImpl(
             restaurantDao.setIsFavoriteById(id, isFavorite)
         }
 
-    override suspend fun refreshRestaurants() {
-        externalScope.launch(dispatcher) {
-
-            val restaurants: Deferred<List<LocalRestaurant>> = async {
-                restaurantApi.getAllRestaurants().map { it.toLocalRestaurant() }
-            }
-
+    override suspend fun refreshRestaurants(): Unit = withContext(dispatcher) {
+        try {
+            val remoteRestaurants = restaurantApi.getAllRestaurants()
+            val localRestaurants = remoteRestaurants.map { it.toLocalRestaurant() }
             val idsOfFavorites: List<Int> = restaurantDao.getIdsOfFavoriteRestaurants()
             val isFavoriteList: List<IsFavorite> =
                 idsOfFavorites.map { id -> IsFavorite(id = id, isFavorite = true) }
 
-            restaurantDao.refreshRestaurants(restaurants.await())
+            restaurantDao.refreshRestaurants(localRestaurants)
             restaurantDao.updateIsFavorite(isFavoriteList)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            Log.e("RestaurantRepository", "Error refreshing restaurants: ${e.message}", e)
         }
     }
 
-    override suspend fun clearDatabase() {
-        externalScope.launch(dispatcher) {
-            restaurantDao.deleteAllRestaurants()
-        }
+    override suspend fun clearDatabase() = withContext(dispatcher) {
+        restaurantDao.deleteAllRestaurants()
     }
 }
 

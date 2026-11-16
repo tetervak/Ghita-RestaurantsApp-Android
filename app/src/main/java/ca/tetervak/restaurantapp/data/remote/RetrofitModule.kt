@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val baseUrl = "https://restaurantsapp-android-default-rtdb.firebaseio.com/"
+    private const val baseUrl = "https://restaurants-db-default-rtdb.firebaseio.com/"
 
     private val json: Json = Json{
         ignoreUnknownKeys = true

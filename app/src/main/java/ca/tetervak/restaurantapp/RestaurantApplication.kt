@@ -2,7 +2,7 @@ package ca.tetervak.restaurantapp
 
 import android.app.Application
 import ca.tetervak.restaurantapp.data.repository.RestaurantRepository
-import ca.tetervak.restaurantapp.di.appModule
+import ca.tetervak.restaurantapp.di.appModules
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class RestaurantApplication : Application() {
 
         startKoin {
             androidContext(this@RestaurantApplication)
-            modules(appModule)
+            modules(appModules)
         }
 
         MainScope().launch(Dispatchers.IO) {

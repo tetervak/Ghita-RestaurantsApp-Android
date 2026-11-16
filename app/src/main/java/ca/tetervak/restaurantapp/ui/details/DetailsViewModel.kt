@@ -7,16 +7,14 @@ import androidx.lifecycle.viewModelScope
 import ca.tetervak.restaurantapp.data.repository.RestaurantRepository
 import ca.tetervak.restaurantapp.domain.Restaurant
 import ca.tetervak.restaurantapp.ui.navigation.DetailsDestination
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class DetailsViewModel @Inject constructor(
-    repository: RestaurantRepository, stateHandle: SavedStateHandle
+class DetailsViewModel(
+    repository: RestaurantRepository,
+    stateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _detailsUiState: MutableStateFlow<DetailsUiState> =

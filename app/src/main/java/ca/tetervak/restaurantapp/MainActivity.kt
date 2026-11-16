@@ -9,9 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import ca.tetervak.restaurantapp.ui.AppRootScreen
 import ca.tetervak.restaurantapp.ui.theme.AppTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,4 +25,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

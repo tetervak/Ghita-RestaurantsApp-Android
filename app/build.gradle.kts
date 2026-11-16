@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
 }
 
 android {
@@ -54,12 +53,11 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
 
-    // needed for the dependency injection
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    // Koin for dependency injection
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
-    // needed for the view model per destination, the hiltViewModel() function
-    implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // Retrofit
     implementation(libs.retrofit2.kotlinx.serialization.converter)

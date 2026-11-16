@@ -2,20 +2,25 @@ package ca.tetervak.restaurantapp
 
 import android.app.Application
 import ca.tetervak.restaurantapp.data.repository.RestaurantRepository
-import dagger.hilt.android.HiltAndroidApp
+import ca.tetervak.restaurantapp.di.appModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
-@HiltAndroidApp
-class RestaurantApplication : Application(){
+class RestaurantApplication : Application() {
 
-    @Inject
-    lateinit var repository: RestaurantRepository
+    private val repository: RestaurantRepository by inject()
 
     override fun onCreate() {
         super.onCreate()
+
+        startKoin {
+            androidContext(this@RestaurantApplication)
+            modules(appModule)
+        }
 
         MainScope().launch(Dispatchers.IO) {
             repository.refreshRestaurants()

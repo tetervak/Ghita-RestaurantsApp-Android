@@ -14,21 +14,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class RestaurantRepositoryImpl(
     private val restaurantApi: RestaurantApi,
     private val restaurantDao: RestaurantDao,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RestaurantRepository {
-
-    @Inject
-    constructor(
-        restaurantApi: RestaurantApi,
-        restaurantDao: RestaurantDao
-    ) : this(restaurantApi, restaurantDao, Dispatchers.IO)
 
     override fun getAllRestaurantFlow(): Flow<List<Restaurant>> =
         restaurantDao.getAllRestaurantFlow().map { list -> list.map { it.toRestaurant() } }

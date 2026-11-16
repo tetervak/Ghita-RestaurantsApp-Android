@@ -11,12 +11,12 @@ composeBom = "2026.09.00"
 okhttp = "5.5.1"
 room = "2.8.5"
 ksp = "2.3.7"
-hilt = "2.60.1"
-hiltNavCompose = "1.4.0"
+koin = "4.2.2"
 kotlinSer = "2.4.21"
 kotlinxSerJson = "1.13.0"
 retrofit = "3.0.0"
 retrofit2KotlinxSerConv = "1.0.0"
+navigationCompose = "2.10.2"
 materialIcons = "1.7.8"
 
 [libraries]
@@ -26,9 +26,8 @@ androidx-room = { group = "androidx.room", name = "room-ktx", version.ref = "roo
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt"}
-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt"}
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavCompose" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerJson"}
 
@@ -41,6 +40,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -56,5 +56,4 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 android-application = { id = "com.android.application", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref= "kotlinSer" }
